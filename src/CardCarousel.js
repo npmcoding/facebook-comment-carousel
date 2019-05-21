@@ -10,15 +10,25 @@ export default class CardCarousel extends Component {
       currentIndex: 0,
       prevIndex: null,
       transitionClass: 'initial-card-position',
-      totalComments: props.commentData.length
+      totalComments: props.commentData.length,
+      timer: 5000
     };
 
+    this.advanceNextSlide = this.advanceNextSlide.bind(this);
     this.handleNextSlideClick = this.handleNextSlideClick.bind(this);
     this.handlePrevSlideClick = this.handlePrevSlideClick.bind(this);
-    //this.afterAnimation = this.afterAnimation.bind(this);
+  }
+
+  componentDidMount() {
+    setTimeout(() => this.advanceNextSlide(), this.state.timer);
   }
 
   handleNextSlideClick() {
+    clearTimeout();
+    this.advanceNextSlide();
+  }
+
+  advanceNextSlide() {
     const { currentIndex, totalComments } = this.state;
     const newIndex = (currentIndex + 1) === totalComments ? 0 : currentIndex + 1;
 
@@ -27,9 +37,12 @@ export default class CardCarousel extends Component {
       prevIndex: currentIndex,
       transitionClass: "next-comment-card"
     });
+    setTimeout(() => this.advanceNextSlide(), this.state.timer);
+
   }
 
   handlePrevSlideClick() {
+    clearTimeout();
     const { currentIndex, totalComments } = this.state;
     const newIndex = (currentIndex - 1) < 0 ? totalComments - 1 : currentIndex - 1;
 
@@ -38,14 +51,9 @@ export default class CardCarousel extends Component {
       prevIndex: currentIndex,
       transitionClass: "prev-comment-card"
     });
-  }
 
-  /*afterAnimation() {
-    this.setState({
-      slideLeft: false,
-      slideRight: false
-    });
-  }*/
+    setTimeout(() => this.advanceNextSlide(), this.state.timer);
+  }
 
   render() {
     const { commentData } = this.props;

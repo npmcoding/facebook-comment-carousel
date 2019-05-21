@@ -7,12 +7,14 @@ export default function Card({ data }) {
   if (data.comment.length < 100) { commentTextSize = " short" }
   else if (data.comment.length > 400) { commentTextSize = " long" }
 
+  const commentLink = !data.url ? 'https://www.facebook.com/totallytrips/' : data.url;
+
   return (
     <div className="fb-comment-card">
         <div className="fb-comment-logo"><a href="https://www.facebook.com/totallytrips/"><i className="fa fa-facebook-square"></i></a></div>
         <div className="fb-comment-monogram">{data.name[0]}</div>
         <div className="fb-comment-header">
-          <span className="fb-comment-name"><a href={data.url}>{data.name}</a></span>
+          <span className="fb-comment-name"><a href={commentLink}>{data.name}</a></span>
 
           {data.type === 'recommendation' ?
             <span className="fb-comment-recommendation">recommends Totally Trips</span>
