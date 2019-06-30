@@ -3,6 +3,8 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import './fb-comments.css';
 import Card from './Card';
 
+let cardTimeOut;
+
 export default class CardCarousel extends Component {
   constructor(props) {
     super(props);
@@ -20,11 +22,11 @@ export default class CardCarousel extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => this.advanceNextSlide(), this.state.timer);
+    cardTimeOut = setTimeout(this.advanceNextSlide, this.state.timer);
   }
 
   handleNextSlideClick() {
-    clearTimeout();
+    clearTimeout(cardTimeOut);
     this.advanceNextSlide();
   }
 
@@ -37,12 +39,12 @@ export default class CardCarousel extends Component {
       prevIndex: currentIndex,
       transitionClass: "next-comment-card"
     });
-    setTimeout(() => this.advanceNextSlide(), this.state.timer);
+    cardTimeOut = setTimeout(this.advanceNextSlide, this.state.timer);
 
   }
 
   handlePrevSlideClick() {
-    clearTimeout();
+    clearTimeout(cardTimeOut);
     const { currentIndex, totalComments } = this.state;
     const newIndex = (currentIndex - 1) < 0 ? totalComments - 1 : currentIndex - 1;
 
@@ -52,7 +54,7 @@ export default class CardCarousel extends Component {
       transitionClass: "prev-comment-card"
     });
 
-    setTimeout(() => this.advanceNextSlide(), this.state.timer);
+    cardTimeOut = setTimeout(this.advanceNextSlide, this.state.timer);
   }
 
   render() {
