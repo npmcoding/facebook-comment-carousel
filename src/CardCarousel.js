@@ -3,7 +3,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import './fb-comments.css';
 import Card from './Card';
 
-let cardTimeOut;
+//let cardTimeOut;
 
 export default class CardCarousel extends Component {
   constructor(props) {
@@ -11,9 +11,8 @@ export default class CardCarousel extends Component {
     this.state = {
       currentIndex: 0,
       prevIndex: null,
-      transitionClass: 'initial-card-position',
+      transitionClass: null,
       totalComments: props.commentData.length,
-      timer: 5000
     };
 
     this.advanceNextSlide = this.advanceNextSlide.bind(this);
@@ -22,11 +21,9 @@ export default class CardCarousel extends Component {
   }
 
   componentDidMount() {
-    cardTimeOut = setTimeout(this.advanceNextSlide, this.state.timer);
   }
 
   handleNextSlideClick() {
-    clearTimeout(cardTimeOut);
     this.advanceNextSlide();
   }
 
@@ -34,33 +31,29 @@ export default class CardCarousel extends Component {
     const { currentIndex, totalComments } = this.state;
     const newIndex = (currentIndex + 1) === totalComments ? 0 : currentIndex + 1;
 
-    this.setState({
+    this.setState(prevState => ({
       currentIndex: newIndex,
-      prevIndex: currentIndex,
+      prevIndex: prevState.currentIndex,
       transitionClass: "next-comment-card"
-    });
-    cardTimeOut = setTimeout(this.advanceNextSlide, this.state.timer);
-
+    }));
   }
 
   handlePrevSlideClick() {
-    clearTimeout(cardTimeOut);
     const { currentIndex, totalComments } = this.state;
     const newIndex = (currentIndex - 1) < 0 ? totalComments - 1 : currentIndex - 1;
 
-    this.setState({
+    this.setState(prevState => ({
       currentIndex: newIndex,
-      prevIndex: currentIndex,
+      prevIndex: prevState.currentIndex,
       transitionClass: "prev-comment-card"
-    });
-
-    cardTimeOut = setTimeout(this.advanceNextSlide, this.state.timer);
+    }));
   }
 
   render() {
     const { commentData } = this.props;
-    const { currentIndex, transitionClass } = this.state;
-    const prevIndex = this.state.prevIndex === null ? currentIndex : this.state.prevIndex
+    const { currentIndex, prevIndex, transitionClass } = this.state;
+
+    //const prevIndex = this.state.prevIndex === null ? -1 : this.state.prevIndex
 
     return (
       <Fragment>
@@ -76,21 +69,35 @@ export default class CardCarousel extends Component {
         <TransitionGroup component={null}>
           <CSSTransition
             timeout={1000}
-            classNames={transitionClass}
+            classNames={{
+              enter: `${transitionClass}-enter`,
+              enterActive: `${transitionClass}-enter-active`,
+              exit: `${transitionClass}-exit`,
+            }}
             key={currentIndex}
           >
-            <div className="slider-card-wrapper">
-
-              <Card data={commentData[prevIndex]} />
-
+            <div className="slider-card-wrapper current-card">
               <Card data={commentData[currentIndex]} />
-
-              <Card data={commentData[prevIndex]} />
-
             </div>
           </CSSTransition>
         </TransitionGroup>
-        }
+        <TransitionGroup component={null}>
+          {prevIndex !== null &&
+            <CSSTransition
+              timeout={1000}
+              classNames={{
+                enter: `${transitionClass}-enter`,
+                enterActive: `${transitionClass}-enter-active`,
+                exit: `${transitionClass}-exit`,
+              }}
+              key={prevIndex}
+            >
+              <div className="slider-card-wrapper prev-card">
+                <Card data={commentData[prevIndex]} />
+              </div>
+            </CSSTransition>
+          }
+        </TransitionGroup>
       </Fragment>
     )
   }

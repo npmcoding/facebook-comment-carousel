@@ -1,7 +1,7 @@
 .fb-comments-slider {
     width: 700px;
     height: 300px;
-    background: #f2f2f2;
+   /* background: #f2f2f2;*/
     margin: 20px auto;
     position: relative;
     overflow: hidden;
@@ -9,40 +9,71 @@
 }
 
 .slider-card-wrapper {
-    position: relative;
+    position: absolute;
     height: 100%;
     width: 100%;
-    left: -700px;
 }
 
-.prev-comment-card-enter {
+.prev-card {
+    background:pink;
+    z-index: 1000;
+    display: none
+}
+
+.current-card {
+    background:lightblue;
+    z-index: 1009;
+}
+
+.current-card.prev-comment-card-enter {
     transform: translate(-700px, 0);
     transform: translate3d(-700px, 0, 0);
 }
 
-.prev-comment-card-enter.prev-comment-card-enter-active {
+.current-card.prev-comment-card-enter.prev-comment-card-enter-active {
     transition: transform ease-in-out 1s;
     transform: translate(0, 0);
     transform: translate3d(0, 0, 0);
 }
 
-.initial-card-position, .next-comment-card-enter {
+.current-card.prev-comment-card-exit, .prev-card.prev-comment-card-exit  {
+    opacity: 0;
+}
+
+.prev-card.prev-comment-card-enter{
+    display: block;
+}
+
+.prev-card.prev-comment-card-enter-active{
+    transition: transform ease-in-out 1s;
     transform: translate(700px, 0);
     transform: translate3d(700px, 0, 0);
 }
 
-.next-comment-card-enter.next-comment-card-enter-active {
+.current-card.next-comment-card-enter {
+    transform: translate(700px, 0);
+    transform: translate3d(700px, 0, 0);
+
+}
+
+.current-card.next-comment-card-enter.next-comment-card-enter-active {
     transition: transform ease-in-out 1s;
     transform: translate(0, 0);
     transform: translate3d(0, 0, 0);
 }
 
-.prev-comment-card-exit {
+.current-card.next-comment-card-exit, .prev-card.next-comment-card-exit {
     opacity: 0;
 }
 
-.next-comment-card-exit {
-    opacity: 0;
+.prev-card.next-comment-card-enter{
+    display: block;
+}
+
+.prev-card.next-comment-card-enter-active{
+    transition: transform ease-in-out 1s;
+    transform: translate(-700px, 0);
+    transform: translate3d(-700px, 0, 0);
 }
 
 .slider-left-arrow, .slider-right-arrow {
@@ -146,4 +177,12 @@
 
 .fb-comment-text.long {
     font-size: 14px;
+}
+
+.prev-comment-card-enter, 
+.prev-comment-card-enter.prev-comment-card-enter-active,
+.next-comment-card-enter,
+.next-comment-card-enter.next-comment-card-enter-active {
+    background: lightgreen;
+    z-index: 2000;
 }
