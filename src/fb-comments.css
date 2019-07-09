@@ -1,7 +1,7 @@
 .fb-comments-slider {
     width: 700px;
     height: 300px;
-   /* background: #f2f2f2;*/
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     margin: 20px auto;
     position: relative;
     overflow: hidden;
@@ -15,13 +15,11 @@
 }
 
 .prev-card {
-    background:pink;
     z-index: 1000;
     display: none
 }
 
 .current-card {
-    background:lightblue;
     z-index: 1009;
 }
 
@@ -111,6 +109,9 @@
     vertical-align: top;
     font-family: "Freight Sans Bold", Helvetica, Arial, sans-serif;
     font-size: 17px;
+    background: #f2f2f2;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)
+
 }
 
 .fb-comment-logo a {
@@ -183,6 +184,5 @@
 .prev-comment-card-enter.prev-comment-card-enter-active,
 .next-comment-card-enter,
 .next-comment-card-enter.next-comment-card-enter-active {
-    background: lightgreen;
     z-index: 2000;
 }
