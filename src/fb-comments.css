@@ -110,8 +110,8 @@
     font-family: "Freight Sans Bold", Helvetica, Arial, sans-serif;
     font-size: 17px;
     background: #f2f2f2;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)
-
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
 }
 
 .fb-comment-logo a {

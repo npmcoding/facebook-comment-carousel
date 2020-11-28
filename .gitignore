@@ -27,3 +27,6 @@ appConfig.json
 # Totally Trips specific stuff
 /public/layout
 /public/index.html
+
+# JSX preprocessed files
+/jsx_preprocess
